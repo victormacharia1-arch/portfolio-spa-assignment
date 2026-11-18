@@ -26,9 +26,14 @@ function App() {
   }
 
   const filteredProducts = products.filter((product) => {
-    const searchableText = `${product.title} ${product.description}`.toLowerCase();
-    return searchableText.includes(searchTerm.toLowerCase());
+    const searchString = searchTerm.toLowerCase();
+    return (
+      product.title.toLowerCase().includes(searchString) ||
+      product.description.toLowerCase().includes(searchString)
+    );
   });
+    
+    
 
 return (
     <BrowserRouter>
@@ -53,10 +58,15 @@ return (
         <Route 
           path="/products" 
           element={
-            <ProductList 
-              projects={filteredProducts} 
-              onDelete={deleteProduct} 
-            />
+            <div style={{ display: 'flex', padding: '20px', gap: '30px', }}>
+              <div style={{ width: '200px' }}>
+                <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+              </div>
+              <ProductList 
+                projects={filteredProducts} 
+                onDelete={deleteProduct} 
+              />
+            </div>
           } 
         />
       </Routes>
